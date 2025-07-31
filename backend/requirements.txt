@@ -1,0 +1,13 @@
+fastapi
+uvicorn[standard]
+httpx
+sqlalchemy[asyncio]
+psycopg2-binary
+asyncpg          # ← add this
+chromadb>=0.4.15,<0.5
+numpy<2          # ← pin NumPy < 2
+langchain-community
+langchain-openai
+pypdf
+passlib[bcrypt]
+python-jose[cryptography]

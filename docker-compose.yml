@@ -1,0 +1,39 @@
+
+services:
+  postgres:
+    image: postgres:15
+    environment:
+      POSTGRES_USER: dify
+      POSTGRES_PASSWORD: dify
+      POSTGRES_DB: dify
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+  chroma:
+    image: chromadb/chroma:0.4.15
+    ports:
+      - "8000:8000"
+    volumes: [chromadata:/chroma/chroma]
+
+  backend:
+    build: ./backend
+    env_file: .env
+    ports:
+      - "8001:8000"
+    depends_on: [postgres, chroma]
+    volumes:
+      - ./backend:/app
+
+  web:
+    build: ./web
+    ports: ["3000:3000"]
+    environment:
+      REACT_APP_API: http://localhost:8001
+    volumes:
+      - ./web:/app
+
+volumes:
+  pgdata:
+  chromadata:
