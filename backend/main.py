@@ -5,8 +5,8 @@ from sqlalchemy import select
 from models import Base, User
 from auth import create_token, verify_pw, hash_pw
 from vector_store import index_pdf, rag_chain
-import os, time
-import jwt
+import os, time, jwt
+
 
 DATABASE_URL = os.getenv("DATABASE_URL")
 if not DATABASE_URL:
