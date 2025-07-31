@@ -40,7 +40,15 @@ export default function App() {
                     setActive(id);
                     setPage("settings");
                   }}
-                >
+                  // ограничиваем историю
+const MAX = 1000;
+const raw = localStorage.getItem("chat");
+if (raw) {
+  const saved = JSON.parse(raw);
+  saved.messages = saved.messages?.slice(-MAX);
+  localStorage.setItem("chat", JSON.stringify(saved));
+}
+                >     
                   + Новое
                 </li>
               </ul>
