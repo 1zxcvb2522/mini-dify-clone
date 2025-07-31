@@ -1,5 +1,5 @@
-import React, { useCallback } from "react";
-import "react/jsx-runtime";
+// WorkflowEditor.tsx
+import React, { useCallback, useEffect } from "react";
 import ReactFlow, {
   Node,
   Edge,
@@ -9,8 +9,11 @@ import ReactFlow, {
   MiniMap,
   useNodesState,
   useEdgesState,
+  ReactFlowProvider,
 } from "reactflow";
 import "reactflow/dist/style.css";
+
+const STORAGE_KEY = "workflow-flow";
 
 const initialNodes: Node[] = [
   {
@@ -31,33 +34,63 @@ const initialNodes: Node[] = [
     position: { x: 400, y: 0 },
   },
 ];
+
 const initialEdges: Edge[] = [
   { id: "e1-2", source: "1", target: "2" },
   { id: "e2-3", source: "2", target: "3" },
 ];
 
 export default function WorkflowEditor() {
-  const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
-  const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
+  const [nodes, setNodes, onNodesChange] = useNodesState([]);
+  const [edges, setEdges, onEdgesChange] = useEdgesState([]);
+
+  // загрузка из localStorage
+  useEffect(() => {
+    try {
+      const saved = localStorage.getItem(STORAGE_KEY);
+      if (saved) {
+        const { nodes: n, edges: e } = JSON.parse(saved);
+        setNodes(n);
+        setEdges(e);
+      } else {
+        setNodes(initialNodes);
+        setEdges(initialEdges);
+      }
+    } catch {
+      setNodes(initialNodes);
+      setEdges(initialEdges);
+    }
+  }, [setNodes, setEdges]);
+
+  // сохранение при изменении
+  useEffect(() => {
+    localStorage.setItem(
+      STORAGE_KEY,
+      JSON.stringify({ nodes, edges })
+    );
+  }, [nodes, edges]);
+
   const onConnect = useCallback(
     (params) => setEdges((eds) => addEdge(params, eds)),
     [setEdges]
   );
 
   return (
-    <div style={{ height: "100vh" }}>
-      <ReactFlow
-        nodes={nodes}
-        edges={edges}
-        onNodesChange={onNodesChange}
-        onEdgesChange={onEdgesChange}
-        onConnect={onConnect}
-        fitView
-      >
-        <Background />
-        <Controls />
-        <MiniMap />
-      </ReactFlow>
-    </div>
+    <ReactFlowProvider>
+      <div style={{ height: "100vh" }}>
+        <ReactFlow
+          nodes={nodes}
+          edges={edges}
+          onNodesChange={onNodesChange}
+          onEdgesChange={onEdgesChange}
+          onConnect={onConnect}
+          fitView
+        >
+          <Background />
+          <Controls />
+          <MiniMap />
+        </ReactFlow>
+      </div>
+    </ReactFlowProvider>
   );
 }
