@@ -106,25 +106,33 @@ POST /run_workflow
 ### Запуск за 60 секунд
 
 bash
-git clone (https://github.com/1zxcvb2522/mini-dify-clone.git)
+
+git clone https://github.com/1zxcvb2522/mini-dify-clone.git
+
 cd mini-dify-clone
 
 # 1. Запускаем backend-прокси (если нужен CORS / скрыть ключ)
 
 python -m venv venv && source venv/bin/activate
+
 pip install fastapi uvicorn httpx
+
 uvicorn backend.server:app --reload --port 8001
 
 ## 2. Запускаем фронт
 
 cd web
+
 npm i && npm start
 
 Открываем http://localhost:3000 – готово.
 
 git clone https://github.com/1zxcvb2522/mini-dify-clone.git
+
 cd mini-dify-clone
+
 cp .env.example .env          # заполнить OPENAI_API_KEY
+
 docker compose up --build
 
 ### По умолчанию:
