@@ -106,7 +106,7 @@ POST /run_workflow
 ### Запуск за 60 секунд
 
 bash
-git clone https://github.com/your-name/mini-dify-clone.git
+git clone (https://github.com/1zxcvb2522/mini-dify-clone.git)
 cd mini-dify-clone
 
 # 1. Запускаем backend-прокси (если нужен CORS / скрыть ключ)
@@ -122,7 +122,7 @@ npm i && npm start
 
 Открываем http://localhost:3000 – готово.
 
-git clone https://github.com/your-name/mini-dify-clone.git
+git clone https://github.com/1zxcvb2522/mini-dify-clone.git
 cd mini-dify-clone
 cp .env.example .env          # заполнить OPENAI_API_KEY
 docker compose up --build
@@ -159,7 +159,7 @@ docker compose up --build
 
 ### Откройте терминал и выполните:
 
-git clone https://github.com/your-name/mini-dify-clone.git
+git clone https://github.com/1zxcvb2522/mini-dify-clone.git
 
 cd mini-dify-clone
 
@@ -183,7 +183,7 @@ POST /register  →  email: admin@demo  password: demo
 
 docker run --rm -it -p 3000:3000 -p 8001:8000 \
   -e OPENAI_API_KEY=sk-xxx \
-  ghcr.io/your-name/mini-dify-clone:latest
+  ghcr.io/1zxcvb2522/mini-dify-clone:latest
   
 (образ публикуется автоматически из ветки main, тег latest).
 
